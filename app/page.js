@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import Groq from "groq-sdk";
+import { Groq } from "groq-sdk";
 
 export default function Home() {
   const [messages, setMessages] = useState([]);
@@ -48,7 +48,26 @@ export default function Home() {
         {
           role: "system",
           content:
-            "You are a helpful chef AI that suggests recipes based on ingredients. When I provide ingredients, suggest a recipe using those ingredients. Keep your responses concise and focused on the recipe suggestion.",
+            "You are a helpful chef AI that suggests recipes based on ingredients. When I provide ingredients, suggest a recipe using those ingredients. Keep your responses concise and focused on the recipe suggestion. Format your response as follows:\n\n" +
+            "1. Start with the recipe title enclosed in '**' on its own line.\n" +
+            "2. Include separate subtitles for 'Serving:', 'Ingredients:', and 'Preparation Method:', each enclosed in '**' and on their own lines.\n" +
+            "3. For both ingredients and preparation steps, use a dash (-) at the start of each line.\n" +
+            "4. Ensure each ingredient and step is on its own line.\n" +
+            "5. Keep all other text as regular paragraphs.\n\n" +
+            "Example format:\n" +
+            "**Recipe Title**\n\n" +
+            "Brief description if needed.\n\n" +
+            "**Serving:**\n" +
+            "Number of servings\n\n" +
+            "**Ingredients:**\n" +
+            "- Ingredient 1\n" +
+            "- Ingredient 2\n" +
+            "- Ingredient 3\n\n" +
+            "**Preparation Method:**\n" +
+            "- Step 1\n" +
+            "- Step 2\n" +
+            "- Step 3\n\n" +
+            "Any additional notes or tips.",
         },
         ...messages.map((msg) => ({
           role: msg.role === "bot" ? "assistant" : "user",
@@ -96,6 +115,75 @@ export default function Home() {
     }
   };
 
+  //Format the bot's response
+  const FormattedMessage = ({ text }) => {
+    const lines = text.split("\n");
+    let inList = false;
+    let listType = null;
+    let listItems = [];
+
+    const renderList = () => {
+      if (listType === "ol") {
+        return <ol className="list-decimal pl-8 mb-2">{listItems}</ol>;
+      } else if (listType === "ul") {
+        return <ul className="list-disc pl-8 mb-2">{listItems}</ul>;
+      }
+      return null;
+    };
+
+    const result = lines.reduce((acc, line, index) => {
+      if (line.startsWith("**") && line.endsWith("**")) {
+        // Subtitle
+        if (inList) {
+          acc.push(renderList());
+          inList = false;
+          listType = null;
+          listItems = [];
+        }
+        acc.push(
+          <h3 key={`subtitle-${index}`} className="font-bold mt-4 mb-2">
+            {line.slice(2, -2)}
+          </h3>
+        );
+      } else if (line.trim().startsWith("-")) {
+        // List item
+        const itemText = line.trim().slice(1).trim();
+        if (!inList) {
+          if (listItems.length > 0) {
+            acc.push(renderList());
+            listItems = [];
+          }
+          inList = true;
+          // Determine list type based on the context
+          listType = line.toLowerCase().includes("ingredients") ? "ul" : "ol";
+        }
+        listItems.push(<li key={`list-item-${index}`}>{itemText}</li>);
+      } else {
+        // Regular text
+        if (inList) {
+          acc.push(renderList());
+          inList = false;
+          listType = null;
+          listItems = [];
+        }
+        if (line.trim()) {
+          acc.push(
+            <p key={`text-${index}`} className="mb-2">
+              {line.trim()}
+            </p>
+          );
+        }
+      }
+      return acc;
+    }, []);
+
+    if (listItems.length > 0) {
+      result.push(renderList());
+    }
+
+    return <div className="pl-4">{result}</div>;
+  };
+
   // Handle theme change
   const handleThemeChange = (e) => {
     setTheme(e.target.value);
@@ -140,7 +228,8 @@ export default function Home() {
   return (
     <div className={`flex flex-col h-screen p-4 ${primary}`}>
       <div className="flex justify-between items-center mb-4">
-        <h1 className={`text-2xl font-bold ${text}`}>Recipe Suggester AI</h1>
+        <img src="/favicon.ico" alt="Favicon" className="h-8 w-8 mr-2" />
+        <h1 className={`text-2xl font-bold ${text}`}>Marcello - Chef AI</h1>
         <div className="flex space-x-2">
           <label htmlFor="theme" className={`text-sm ${text}`}>
             Theme:
@@ -170,17 +259,20 @@ export default function Home() {
             className={`mb-4 ${
               msg.role === "user" ? "text-right" : "text-left"
             }`}
-            style={{ lineHeight: "1.6" }} // Added lineHeight style here
           >
-            <span
+            <div
               className={`p-2 rounded-lg ${
                 msg.role === "user"
                   ? `${accent} text-white`
                   : `${primary} ${text}`
               }`}
             >
-              {msg.text}
-            </span>
+              {msg.role === "user" ? (
+                msg.text
+              ) : (
+                <FormattedMessage text={msg.text} />
+              )}
+            </div>
             <p className={`text-xs ${text} mt-1`}>
               {msg.role === "bot" ? "Bot" : "You"} -{" "}
               {msg.timestamp.toLocaleTimeString()}
