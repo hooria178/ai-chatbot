@@ -216,36 +216,36 @@ export default function Home() {
     citrusGreen: "bg-citrus-green",
   };
 
-  // Handle theme change
-  const handleThemeChange = (e) => {
-    setTheme(e.target.value);
-  };
+  // // Handle theme change
+  // const handleThemeChange = (e) => {
+  //   setTheme(e.target.value);
+  // };
 
-  // Get the theme colors based on the theme state
+  //Get the theme colors based on the theme state
   const getThemeColors = () => {
-    switch (theme) {
-      case "light":
-        return {
-          primary: "bg-yellow",
-          secondary: "bg-gray-100",
-          accent: citrusColors.citrusGreen,
-          text: "text-gray-800",
-        };
-      case "dark":
-        return {
-          primary: "bg-gray-900",
-          secondary: "bg-gray-800",
-          accent: citrusColors.grapefruitPink,
-          text: "text-gray-100",
-        };
-      default:
-        return {
-          primary: "bg-white",
-          secondary: "bg-gray-100",
-          accent: "bg-blue-500",
-          text: "text-gray-800",
-        };
-    }
+    // switch (theme) {
+    //   case "light":
+    return {
+      primary: "bg-yellow",
+      secondary: "bg-gray-100",
+      accent: citrusColors.citrusGreen,
+      text: "text-gray-800",
+    };
+    //   case "dark":
+    //     return {
+    //       primary: "bg-gray-900",
+    //       secondary: "bg-gray-800",
+    //       accent: citrusColors.grapefruitPink,
+    //       text: "text-gray-100",
+    //     };
+    //   default:
+    //     return {
+    //       primary: "bg-white",
+    //       secondary: "bg-gray-100",
+    //       accent: "bg-blue-500",
+    //       text: "text-gray-800",
+    //     };
+    // }
   };
 
   const handleKeyPress = (e) => {
@@ -267,10 +267,10 @@ export default function Home() {
         <img src="/favicon.ico" alt="Favicon" className="h-8 w-8 mr-2" />
         <h1 className={`text-2xl font-bold ${text}`}>Marcello - Chef AI</h1>
         <div className="flex space-x-2">
-          <label htmlFor="theme" className={`text-sm ${text}`}>
+          {/* <label htmlFor="theme" className={`text-sm ${text}`}>
             Theme:
-          </label>
-          <select
+          </label> */}
+          {/* <select
             id="theme"
             value={theme}
             onChange={handleThemeChange}
@@ -281,7 +281,7 @@ export default function Home() {
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
-          </select>
+          </select> */}
         </div>
       </div>
 
@@ -328,9 +328,9 @@ export default function Home() {
           onChange={(e) => setUserInput(e.target.value)}
           onKeyDown={handleKeyPress}
           disabled={isLoading}
-          className={`flex-1 p-2 rounded-l-md border-t border-b border-l
+          className={`flex-1 p-2 rounded-l-md border-t border-b border-l text-black
     focus:outline-none focus:border-${accent} ${isLoading ? "opacity-50" : ""}`}
-          style={{ lineHeight: "1.6" }}
+          style={{ lineHeight: "1.6", color: "black" }}
         />
         <button
           onClick={handleSendMessage}
