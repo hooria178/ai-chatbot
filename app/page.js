@@ -184,6 +184,17 @@ export default function Home() {
     return <div className="pl-4">{result}</div>;
   };
 
+  //Colors
+  const citrusColors = {
+    orange: "bg-orange",
+    lemonYellow: "bg-lemon-yellow",
+    limeGreen: "bg-lime-green",
+    grapefruitPink: "bg-grapefruit-pink",
+    tangerine: "bg-tangerine",
+    softMint: "bg-soft-mint",
+    citrusGreen: "bg-citrus-green",
+  };
+
   // Handle theme change
   const handleThemeChange = (e) => {
     setTheme(e.target.value);
@@ -194,16 +205,16 @@ export default function Home() {
     switch (theme) {
       case "light":
         return {
-          primary: "bg-white",
+          primary: "bg-yellow",
           secondary: "bg-gray-100",
-          accent: "bg-blue-500",
+          accent: citrusColors.citrusGreen,
           text: "text-gray-800",
         };
       case "dark":
         return {
           primary: "bg-gray-900",
           secondary: "bg-gray-800",
-          accent: "bg-yellow-500",
+          accent: citrusColors.grapefruitPink,
           text: "text-gray-100",
         };
       default:
@@ -239,6 +250,9 @@ export default function Home() {
             value={theme}
             onChange={handleThemeChange}
             className={`p-1 rounded-md border ${text}`}
+            style={{
+              color: theme === "light" ? "#1a202c" : "#1a202c", // dark gray for light theme, white for dark theme
+            }}
           >
             <option value="light">Light</option>
             <option value="dark">Dark</option>
@@ -296,7 +310,9 @@ export default function Home() {
         <button
           onClick={handleSendMessage}
           disabled={isLoading}
-          className={`p-2 ${accent} text-white rounded-r-md hover:bg-opacity-80 
+          className={`p-2 ${
+            citrusColors.tangerine
+          } text-white rounded-r-md hover:bg-opacity-80 
     focus:outline-none ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Send
