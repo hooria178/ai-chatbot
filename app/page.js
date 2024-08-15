@@ -1,6 +1,22 @@
 "use client";
 import { useState, useEffect } from "react";
 import { Groq } from "groq-sdk";
+import Image from "next/image";
+
+// Loading component
+const LoadingScreen = () => (
+  <div className="flex flex-col items-center justify-center h-screen bg-yellow">
+    <Image
+      src="/favicon.ico" // Replace with your icon's path
+      alt="Loading Icon"
+      width={100}
+      height={100}
+    />
+    <p className="mt-4 text-gray-800 text-xl">
+      Marcello - Chef AI is getting ready...
+    </p>
+  </div>
+);
 
 export default function Home() {
   const [messages, setMessages] = useState([]);
@@ -15,7 +31,12 @@ export default function Home() {
   });
 
   useEffect(() => {
-    initChat();
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const initChat = async () => {
@@ -79,6 +100,38 @@ export default function Home() {
       temperature: 0.9,
       max_tokens: 1024,
     });
+  };
+
+  const getThemeColors = () => {
+    switch (theme) {
+      case "light":
+        return {
+          primary: "bg-yellow",
+          secondary: "bg-gray-100",
+          accent: "bg-citrus-green",
+          text: "text-gray-800",
+        };
+      case "dark":
+        return {
+          primary: "bg-gray-900",
+          secondary: "bg-gray-800",
+          accent: "bg-grapefruit-pink",
+          text: "text-gray-100",
+        };
+      default:
+        return {
+          primary: "bg-white",
+          secondary: "bg-gray-100",
+          accent: "bg-blue-500",
+          text: "text-gray-800",
+        };
+    }
+  };
+
+  const colors = getThemeColors();
+
+  const handleThemeChange = (e) => {
+    setTheme(e.target.value);
   };
 
   const handleSendMessage = async () => {
@@ -184,48 +237,48 @@ export default function Home() {
     return <div className="pl-4">{result}</div>;
   };
 
-  //Colors
-  const citrusColors = {
-    orange: "bg-orange",
-    lemonYellow: "bg-lemon-yellow",
-    limeGreen: "bg-lime-green",
-    grapefruitPink: "bg-grapefruit-pink",
-    tangerine: "bg-tangerine",
-    softMint: "bg-soft-mint",
-    citrusGreen: "bg-citrus-green",
-  };
+  // //Colors
+  // const citrusColors = {
+  //   orange: "bg-orange",
+  //   lemonYellow: "bg-lemon-yellow",
+  //   limeGreen: "bg-lime-green",
+  //   grapefruitPink: "bg-grapefruit-pink",
+  //   tangerine: "bg-tangerine",
+  //   softMint: "bg-soft-mint",
+  //   citrusGreen: "bg-citrus-green",
+  // };
 
-  // Handle theme change
-  const handleThemeChange = (e) => {
-    setTheme(e.target.value);
-  };
+  // // Handle theme change
+  // const handleThemeChange = (e) => {
+  //   setTheme(e.target.value);
+  // };
 
-  // Get the theme colors based on the theme state
-  const getThemeColors = () => {
-    switch (theme) {
-      case "light":
-        return {
-          primary: "bg-yellow",
-          secondary: "bg-gray-100",
-          accent: citrusColors.citrusGreen,
-          text: "text-gray-800",
-        };
-      case "dark":
-        return {
-          primary: "bg-gray-900",
-          secondary: "bg-gray-800",
-          accent: citrusColors.grapefruitPink,
-          text: "text-gray-100",
-        };
-      default:
-        return {
-          primary: "bg-white",
-          secondary: "bg-gray-100",
-          accent: "bg-blue-500",
-          text: "text-gray-800",
-        };
-    }
-  };
+  // // Get the theme colors based on the theme state
+  // const getThemeColors = () => {
+  //   switch (theme) {
+  //     case "light":
+  //       return {
+  //         primary: "bg-yellow",
+  //         secondary: "bg-gray-100",
+  //         accent: citrusColors.citrusGreen,
+  //         text: "text-gray-800",
+  //       };
+  //     case "dark":
+  //       return {
+  //         primary: "bg-gray-900",
+  //         secondary: "bg-gray-800",
+  //         accent: citrusColors.grapefruitPink,
+  //         text: "text-gray-100",
+  //       };
+  //     default:
+  //       return {
+  //         primary: "bg-white",
+  //         secondary: "bg-gray-100",
+  //         accent: "bg-blue-500",
+  //         text: "text-gray-800",
+  //       };
+  //   }
+  // };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -235,6 +288,10 @@ export default function Home() {
   };
 
   const { primary, secondary, accent, text } = getThemeColors();
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className={`flex flex-col h-screen p-4 ${primary}`}>
@@ -310,9 +367,7 @@ export default function Home() {
         <button
           onClick={handleSendMessage}
           disabled={isLoading}
-          className={`p-2 ${
-            citrusColors.tangerine
-          } text-white rounded-r-md hover:bg-opacity-80 
+          className={`p-2 ${"bg-grapefruit-pink"} text-white rounded-r-md hover:bg-opacity-80 
     focus:outline-none ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Send
