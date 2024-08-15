@@ -313,7 +313,7 @@ export default function Home() {
               )}
             </div>
             <p className={`text-xs ${text} mt-1`}>
-              {msg.role === "bot" ? "Bot" : "You"} -{" "}
+              {msg.role === "bot" ? "Marcello" : "You"} -{" "}
               {msg.timestamp.toLocaleTimeString()}
             </p>
           </div>
