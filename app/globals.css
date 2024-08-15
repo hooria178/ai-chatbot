@@ -18,7 +18,7 @@
   --background-end-rgb: var(--citrus-green);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     /* Dark Theme */
     --foreground-rgb: 255, 255, 255;
