@@ -34,7 +34,7 @@ export default function Home() {
     // Simulate loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
@@ -102,44 +102,12 @@ export default function Home() {
     });
   };
 
-  const getThemeColors = () => {
-    switch (theme) {
-      case "light":
-        return {
-          primary: "bg-yellow",
-          secondary: "bg-gray-100",
-          accent: "bg-citrus-green",
-          text: "text-gray-800",
-        };
-      case "dark":
-        return {
-          primary: "bg-gray-900",
-          secondary: "bg-gray-800",
-          accent: "bg-grapefruit-pink",
-          text: "text-gray-100",
-        };
-      default:
-        return {
-          primary: "bg-white",
-          secondary: "bg-gray-100",
-          accent: "bg-blue-500",
-          text: "text-gray-800",
-        };
-    }
-  };
-
-  const colors = getThemeColors();
-
-  const handleThemeChange = (e) => {
-    setTheme(e.target.value);
-  };
-
   const handleSendMessage = async () => {
     if (isLoading || !userInput.trim()) {
       return;
     }
 
-    setIsLoading(true);
+    // setIsLoading(true);
     const userMessage = {
       role: "user",
       text: userInput,
@@ -237,48 +205,48 @@ export default function Home() {
     return <div className="pl-4">{result}</div>;
   };
 
-  // //Colors
-  // const citrusColors = {
-  //   orange: "bg-orange",
-  //   lemonYellow: "bg-lemon-yellow",
-  //   limeGreen: "bg-lime-green",
-  //   grapefruitPink: "bg-grapefruit-pink",
-  //   tangerine: "bg-tangerine",
-  //   softMint: "bg-soft-mint",
-  //   citrusGreen: "bg-citrus-green",
-  // };
+  //Colors
+  const citrusColors = {
+    orange: "bg-orange",
+    lemonYellow: "bg-lemon-yellow",
+    limeGreen: "bg-lime-green",
+    grapefruitPink: "bg-grapefruit-pink",
+    tangerine: "bg-tangerine",
+    softMint: "bg-soft-mint",
+    citrusGreen: "bg-citrus-green",
+  };
 
-  // // Handle theme change
-  // const handleThemeChange = (e) => {
-  //   setTheme(e.target.value);
-  // };
+  // Handle theme change
+  const handleThemeChange = (e) => {
+    setTheme(e.target.value);
+  };
 
-  // // Get the theme colors based on the theme state
-  // const getThemeColors = () => {
-  //   switch (theme) {
-  //     case "light":
-  //       return {
-  //         primary: "bg-yellow",
-  //         secondary: "bg-gray-100",
-  //         accent: citrusColors.citrusGreen,
-  //         text: "text-gray-800",
-  //       };
-  //     case "dark":
-  //       return {
-  //         primary: "bg-gray-900",
-  //         secondary: "bg-gray-800",
-  //         accent: citrusColors.grapefruitPink,
-  //         text: "text-gray-100",
-  //       };
-  //     default:
-  //       return {
-  //         primary: "bg-white",
-  //         secondary: "bg-gray-100",
-  //         accent: "bg-blue-500",
-  //         text: "text-gray-800",
-  //       };
-  //   }
-  // };
+  // Get the theme colors based on the theme state
+  const getThemeColors = () => {
+    switch (theme) {
+      case "light":
+        return {
+          primary: "bg-yellow",
+          secondary: "bg-gray-100",
+          accent: citrusColors.citrusGreen,
+          text: "text-gray-800",
+        };
+      case "dark":
+        return {
+          primary: "bg-gray-900",
+          secondary: "bg-gray-800",
+          accent: citrusColors.grapefruitPink,
+          text: "text-gray-100",
+        };
+      default:
+        return {
+          primary: "bg-white",
+          secondary: "bg-gray-100",
+          accent: "bg-blue-500",
+          text: "text-gray-800",
+        };
+    }
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -367,7 +335,9 @@ export default function Home() {
         <button
           onClick={handleSendMessage}
           disabled={isLoading}
-          className={`p-2 ${"bg-grapefruit-pink"} text-white rounded-r-md hover:bg-opacity-80 
+          className={`p-2 ${
+            citrusColors.tangerine
+          } text-white rounded-r-md hover:bg-opacity-80 
     focus:outline-none ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
         >
           Send
