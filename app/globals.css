@@ -12,19 +12,10 @@
   --soft-mint: 152, 255, 152;
   --citrus-green: 168, 230, 207;
 
-  /* Light Theme */
+  /* Single Theme */
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: var(--tangerine);
   --background-end-rgb: var(--citrus-green);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Theme */
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 45, 55, 72; /* Dark blue-gray */
-    --background-end-rgb: 74, 85, 104; /* Lighter blue-gray */
-  }
 }
 
 body {
