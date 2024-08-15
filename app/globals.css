@@ -3,31 +3,86 @@
 @tailwind utilities;
 
 :root {
+  /* Citrus Colors */
+  --orange: 255, 165, 0;
+  --lemon-yellow: 255, 244, 79;
+  --lime-green: 50, 205, 50;
+  --grapefruit-pink: 255, 99, 71;
+  --tangerine: 242, 133, 0;
+  --soft-mint: 152, 255, 152;
+  --citrus-green: 168, 230, 207;
+
+  /* Light Theme */
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: var(--tangerine);
+  --background-end-rgb: var(--citrus-green);
 }
 
-@media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
+    /* Dark Theme */
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 45, 55, 72; /* Dark blue-gray */
+    --background-end-rgb: 74, 85, 104; /* Lighter blue-gray */
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Custom Citrus Theme Classes */
+.bg-orange {
+  background-color: rgb(var(--orange));
+}
+.bg-lemon-yellow {
+  background-color: rgb(var(--lemon-yellow));
+}
+.bg-lime-green {
+  background-color: rgb(var(--lime-green));
+}
+.bg-grapefruit-pink {
+  background-color: rgb(var(--grapefruit-pink));
+}
+.bg-tangerine {
+  background-color: rgb(var(--tangerine));
+}
+.bg-soft-mint {
+  background-color: rgb(var(--soft-mint));
+}
+.bg-citrus-green {
+  background-color: rgb(var(--citrus-green));
+}
+
+.text-orange {
+  color: rgb(var(--orange));
+}
+.text-lemon-yellow {
+  color: rgb(var(--lemon-yellow));
+}
+.text-lime-green {
+  color: rgb(var(--lime-green));
+}
+.text-grapefruit-pink {
+  color: rgb(var(--grapefruit-pink));
+}
+.text-tangerine {
+  color: rgb(var(--tangerine));
+}
+.text-soft-mint {
+  color: rgb(var(--soft-mint));
+}
+.text-citrus-green {
+  color: rgb(var(--citrus-green));
 }
